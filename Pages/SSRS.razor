@@ -1,0 +1,102 @@
+﻿@page "/ssrs"
+
+@using Radzen
+@using Radzen.Blazor
+
+<HeadContent>
+    <style>
+        .ssrsviewer {
+            display: flex;
+        }
+        .ssrsviewer iframe {
+            flex: auto;
+        }
+    </style>
+</HeadContent>
+
+<PageTitle>SSRS</PageTitle>
+
+<RadzenContent Container="main">
+    <ChildContent>
+        <RadzenHeading Size="H1" Text="Change Report Test">
+    </RadzenHeading>
+    <select class="form-control" @bind="@SelectedReport">
+        @foreach (var reportName in _mReports)
+        {
+            <option value="@reportName">@reportName</option>
+        }
+    </select>
+    <RadzenSSRSViewer ReportName=@SelectedReport ReportServer="http://ssrs/ReportServer/" style="height: 900px;">
+    </RadzenSSRSViewer>
+    </ChildContent>
+</RadzenContent>
+
+@code {
+    string selectedReport = "Exception Based Surveillance/WAM Metrics/WAM Lead Time";
+
+    string SelectedReport
+    {
+        get => selectedReport;
+        set { selectedReport = value; }
+    }
+
+    public readonly string[] _mReports =
+    {
+        "Exception Based Surveillance/SignalTesting",
+        "Production Data/Prod - All Test Details", 
+        "Master Data/Status Change",
+        "Master Data/OtherMeasurements",
+        "Injection Data/Steam Injection",
+        "Injection Data/Water Injection",
+        "Production Data/Segment Production",
+        "Injection Data/Cyclic History",
+        "Work Activities/Secured Reports/NetworksActivitiesAndOrders",
+        "Work Activities/Secured Reports/OrderDetails",
+        "Work Activities/Secured Reports/NetworkAndActivityDetails",
+        "Work Activities/Notifications",
+        "Work Activities/NotificationTaskDetail",
+        "Mechanical Details/Surface Equipment",
+        "Work Activities/Well Work Activity",
+        "Work Activities/Dims Hot Notes",
+        "Mechanical Details/DownHole Perfs",
+        "Mechanical Details/Down Hole Pump",
+        "POC Data/POC Runtime - Belridge",
+        "POC Data/POC Runtime - Ventura",
+        "POC Data/POC Runtime - Other",
+        "Production Data/Prod - Monthly Allocated Production - Daily Rate",
+        "Production Data/Prod - Monthly Allocated Production - On Days",
+        "Injection Data/Daily Allocated Injection On Days",
+        "Injection Data/Monthly Allocated Injection Calendar Days",
+        "Geology/Geologic Markers",
+        "Mechanical Details/Mechanical Details",
+        "Logs and Surveys/Directional Survey",
+        "Exception Based Surveillance/ActiveSignalsByBoard",
+        "Work Activities/Tasks and Comments/Open WRA Tasks by Well",
+        "Work Activities/Tasks and Comments/Well Comments2",
+        "Production Data/Prod - Monthly Allocated Graph",
+        "Work Activities/Tasks and Comments/WRA Tasks",
+        "Work Activities/Tasks and Comments/WRA Segment Tasks",
+        "Exception Based Surveillance/MissingBoardByString",
+        "Work Activities/Tasks and Comments/Segment Well Tasks by Segment",
+        "Work Activities/Tasks and Comments/Segment Tasks by Segment",
+        "Work Activities/Tasks and Comments/Segment Comments",
+        "Exception Based Surveillance/Signal Counts",
+        "Exception Based Surveillance/WAM Metrics/WAM Lead Time",
+        "Exception Based Surveillance/WAM Metrics/WAM Yield",
+        "Exception Based Surveillance/WAM Metrics/WAM Total Lead Time",
+        "Exception Based Surveillance/WAM Metrics/WAM Total Yield",
+        "OpenWells/OW Hot Notes",
+        "OpenWells/OW Well Work Activity",
+        "OpenWells/OW Well Work Daily Time Summary",
+        "OpenWells/OW Well Work Attachments",
+        "OpenWells/OW Well Plans",
+        "OpenWells/OW Well Plan Details",
+        "OpenWells/OW Down Hole Pump",
+        "OpenWells/OW DownHole Perfs",
+        "OpenWells/OW Mechanical Details",
+        "OpenWells/OW Casing Collars",
+        "OpenWells/OW Casing Collar Details",
+        "OpenWells/OW RCFA Lookbacks",
+        "OpenWells/OW RCFA Lookbacks Hazard Summary"
+    };
+}
