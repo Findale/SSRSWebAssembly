@@ -1,0 +1,217 @@
+﻿@page "/alt-triage"
+
+@using Telerik.DataSource
+@using Telerik.DataSource.Extensions
+
+<TelerikFilter ValueChanged="@OnValueChanged">
+    <FilterFields>
+        <FilterField Name="@(nameof(Link.name))" Type="@(typeof(string))" Label="Name"></FilterField>
+        <FilterField Name="@(nameof(Link.urlAddress))" Type="@(typeof(string))" Label="Url Address"></FilterField>
+        <FilterField Name="@(nameof(Link.description))" Type="@(typeof(string))" Label="Description"></FilterField>
+    </FilterFields>
+</TelerikFilter>
+
+<TelerikListView Data="@ListViewData" Width="100%" Pageable="false">
+    <HeaderTemplate>
+        <h2>Triage Resources</h2>
+    </HeaderTemplate>
+    <Template>
+        <div class="listview-item">
+            <a href=@context.urlAddress target="_blank" rel="noopener noreferrer">@context.name</a>
+        </div>
+    </Template>
+</TelerikListView>
+
+@code {
+    MarkupString helloString;
+
+    void SayHelloHandler()
+    {
+        string msg = string.Format("Hello from <strong>Telerik Blazor</strong> at {0}.<br /> Now you can use C# to write front-end", DateTime.Now);
+        helloString = new MarkupString(msg);
+    }
+
+    private void OnValueChanged(CompositeFilterDescriptor filter)
+    {
+        var dataSourceRequest = new DataSourceRequest { Filters = new List<IFilterDescriptor> { filter } };
+
+        var datasourceResult = InitialData.ToDataSourceResult(dataSourceRequest);
+
+        ListViewData = datasourceResult.Data.Cast<Link>().ToList();
+    }
+
+    List<Link> ListViewData { get; set; } = new List<Link>();
+    static List<Link>? InitialData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        LoadData();
+        base.OnInitialized();
+    }
+
+    void LoadData()
+    {
+        string[][] LinkDetails =
+        {
+            new string[] {
+                "GPM Tool",
+                "http://tableau/#/views/GPM/GPM?:iid=2",
+                "Heavy Light"
+            },
+            new string[] {
+                "Lego vs. SAP",
+                "http://tableau/#/views/LEGOandSAPDownOil/WellListbyAreaOffCode?:iid=5",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Well Alarms",
+                "http://tableau/#/views/Bel_XSpocAlarms_0/Well_List?:iid=2",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Constraints",
+                "http://tableau/#/views/Diatomite_Constraint_Oil_Gross/CONSTRAINTCURTAILMENT?:iid=5",
+                "Light"
+            },
+            new string[]
+            {
+                "Deferred Oil and Uptime (by month)",
+                "http://tableau/#/views/DeferredOilField/DeferredOil?:iid=7",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Missing Facility AB1960 Inspections",
+                "http://tableau/#/views/AB1960Inspections/MissingFacilityInspections",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Missing Vehicle Inspections",
+                "http://tableau/#/views/VehicleInspectionReview/MissingInspections?:iid=9",
+                "All Value Streams"
+            },
+            new string[]
+            {
+                "Moyno Pump Status",
+                "http://tableau/#/views/MoynoPumpStatusReport/DiCLAMPumpStationOverview?:iid=3",
+                "Light"
+            },
+            new string[]
+            {
+                "Check Valve Report",
+                "http://tableau/#/views/DICCheckValveReport/CheckValves?:iid=5",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Open CAPS",
+                "http://tableau/#/views/CAPReport/AllOpenCAPs?:iid=11",
+                "All value streams"
+            },
+            new string[]
+            {
+                "Daily Production Control",
+                "http://aeraweb02/belridge/BelridgeLineOfSight/BelridgeLineOfSight/BelridgeLineOfSightValueStreamDashboard.htm",
+                "All value streams"
+            },
+            new string[]
+            {
+                "PREV Compliance",
+                "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_BL00_Compliance_Forecaster.pdf",
+                "All value streams"
+            },
+            new string[]
+            {
+                "Annual Well Inspections",
+                "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_ANNUAL_WELL_INSPECTION_CLAM.pdf",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Light Group Meter Report",
+                "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_Diatomite_Gross.pdf",
+                "Light"
+            },
+            new string[]
+            {
+                "Heavy Group Meter Report",
+                "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_Tulare_Gross.pdf",
+                "Heavy"
+            },
+            new string[]
+            {
+                "NightRider Report",
+                "https://k2.aeraenergy.com/Runtime/Runtime/Form/NightRiderHomeForm",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Surface Request",
+                "https://k2.aeraenergy.com/Runtime/Form/Surface+PM+Notification/",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Sub-Surface Request",
+                "https://k2.aeraenergy.com/Runtime/Form/Subsurface+PM+Notification/",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "Title V Leak Log",
+                "https://aeraenergyllc-my.sharepoint.com/:x:/g/personal/sewhitestone_aeraenergy_com/ERHxe6PuivVNllZZYhnMA0EBX5NKyhtx3hARG199Nm6n7A?e=4%3AxHVCIy&at=9&CID=2AB114C9-8D51-4C45-8C5A-18C7500CD54F&wdLOR=c53E490F9-5CB8-4E3F-9CD6-AA44D63B1FAF",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "TECO Report",
+                "http://bksapbi01:8080/BOE/OpenDocument/123/PlatformServices/service/app/error.do",
+                "Heavy Light"
+            },
+            new string[]
+            {
+                "FAS Request",
+                "http://aeraweb02/SJVASP/FASRequest/",
+                "Heavy Light"
+            },
+        };
+
+        List<Link> dataBuilder = new List<Link>();
+        foreach (string[] details in LinkDetails)
+        {
+            Link newLink = new Link
+                {
+                    name = details[0],
+                    urlAddress = details[1],
+                    description = details[2]
+                };
+            dataBuilder.Add(newLink);
+        }
+        InitialData = dataBuilder;
+        ListViewData = InitialData;
+    }
+
+    public class Link
+    {
+        public string? name { get; set; }
+        public string? urlAddress { get; set; }
+        public string? description { get; set; }
+    }
+}
+
+<style>
+    .listview-item {
+        height: 75px;
+        width: 150px;
+        display: inline-block;
+        margin: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
