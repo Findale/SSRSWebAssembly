@@ -16,28 +16,25 @@
         <h2>Triage Resources</h2>
     </HeaderTemplate>
     <Template>
-        <TelerikCard Width="300px">
+        <div class="container k-card-group">
+        <TelerikCard Class="customizeCard">
+        <a href=@context.urlAddress target="_blank" rel="noopener noreferrer">
             <CardHeader>
                 <CardTitle>
                     @context.name
                 </CardTitle>
             </CardHeader>
-            <CardBody>
-                <CardSubTitle>
-                    @context.source
-                </CardSubTitle>
-                <CardSeparator></CardSeparator>
-                <p>
-                    @context.description
-                </p>
+            <CardBody Class="card-body">
+                <span>@context.description</span>
             </CardBody>
+        </a>
             <CardFooter>
-                <span style="float:right">@context.type</span>
+                @*<span style="float:right">@context.type</span>*@
+                <span class="chip">+ @context.source</span>
+                <span class="chip">+ @context.type</span>
             </CardFooter>
         </TelerikCard>
-        @*<div class="listview-item">
-            <a href=@context.urlAddress target="_blank" rel="noopener noreferrer">@context.name</a>
-        </div>*@
+        </div>
     </Template>
 </TelerikListView>
 
@@ -269,5 +266,31 @@
         padding: 10px;
         vertical-align: middle;
         text-align: center;
+    }
+
+    .chip {
+        border: 0.005em solid;
+        border-radius: 0.5em;
+        padding: 0.4em;
+    }
+    
+    a:link, a:visited, a:active, a:hover {
+        text-decoration: none;
+        color: black;
+    }
+
+    .container {
+        padding: 1.2em;
+        width: 20em;
+        margin: auto;
+    }
+
+    .card-body{
+        background: rgb(13,0,223);
+        background: linear-gradient(54deg, rgba(13,0,223,1) 0%, rgba(99,99,224,1) 50%, rgba(149,237,255,1) 100%); 
+    }
+
+    .customeizeCard {
+        font-size:100px;
     }
 </style>
