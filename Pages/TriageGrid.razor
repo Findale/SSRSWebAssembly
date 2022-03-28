@@ -1,39 +1,26 @@
-﻿@page "/alt-triage"
+﻿@page "/triage-grid"
 
 @using Telerik.DataSource
 @using Telerik.DataSource.Extensions
 
-<TelerikFilter ValueChanged="@OnValueChanged">
-    <FilterFields>
-        <FilterField Name="@(nameof(Link.name))" Type="@(typeof(string))" Label="Name"></FilterField>
-        <FilterField Name="@(nameof(Link.urlAddress))" Type="@(typeof(string))" Label="Url Address"></FilterField>
-        <FilterField Name="@(nameof(Link.description))" Type="@(typeof(string))" Label="Description"></FilterField>
-    </FilterFields>
-</TelerikFilter>
+<h3>Triage Resources</h3>
 
-<TelerikListView Data="@ListViewData" Width="100%" Pageable="false">
-    <HeaderTemplate>
-        <h2>Triage Resources</h2>
-    </HeaderTemplate>
-    <Template>
-        <div class="listview-item">
-            <a href=@context.urlAddress target="_blank" rel="noopener noreferrer">@context.name</a>
-        </div>
-    </Template>
-</TelerikListView>
+<TelerikGrid Data=@GridData Groupable="true" Pageable="false" height="800px">
+    <GridColumns>
+        <GridColumn Field=@nameof(Link.name) Groupable="false">
+            <Template>
+                @{
+                    var url = context as Link;
+                    @((MarkupString)$"<a href=\"{url.urlAddress}\" target=\"_blank\">{url.name}</a>")
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Field=@nameof(Link.description) Title="Value Stream" />
+    </GridColumns>
+</TelerikGrid>
 
 @code {
-    private void OnValueChanged(CompositeFilterDescriptor filter)
-    {
-        var dataSourceRequest = new DataSourceRequest { Filters = new List<IFilterDescriptor> { filter } };
-
-        var datasourceResult = InitialData.ToDataSourceResult(dataSourceRequest);
-
-        ListViewData = datasourceResult.Data.Cast<Link>().ToList();
-    }
-
-    List<Link> ListViewData { get; set; } = new List<Link>();
-    static List<Link>? InitialData { get; set; }
+    List<Link> GridData { get; set; } = new List<Link>();
 
     protected override void OnInitialized()
     {
@@ -101,19 +88,19 @@
             {
                 "Open CAPS",
                 "http://tableau/#/views/CAPReport/AllOpenCAPs?:iid=11",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
                 "Daily Production Control",
                 "http://aeraweb02/belridge/BelridgeLineOfSight/BelridgeLineOfSight/BelridgeLineOfSightValueStreamDashboard.htm",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
                 "PREV Compliance",
                 "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_BL00_Compliance_Forecaster.pdf",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
@@ -183,8 +170,7 @@
                 };
             dataBuilder.Add(newLink);
         }
-        InitialData = dataBuilder;
-        ListViewData = InitialData;
+        GridData = dataBuilder;
     }
 
     public class Link
@@ -194,17 +180,3 @@
         public string? description { get; set; }
     }
 }
-
-<style>
-    .listview-item {
-        height: 75px;
-        width: 150px;
-        display: inline-block;
-        margin: 10px;
-        border: 1px solid black;
-        border-radius: 10px;
-        padding: 10px;
-        vertical-align: middle;
-        text-align: center;
-    }
-</style>
