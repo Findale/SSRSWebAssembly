@@ -8,8 +8,7 @@
 <div class="k-card-deck flex-center flex-wrap">
     @foreach (var item in ListViewData)
         {
-            <div class="container k-card-group">
-                <TelerikCard Class="customizeCard" Width="325px">
+                <TelerikCard Class="customizeCard" Width="300px">
                 <a href=@item.urlAddress target="_blank" rel="noopener noreferrer">
                     <CardHeader Class="card-header">
                         <CardTitle>
@@ -46,7 +45,6 @@
                     }
                     </CardFooter>
                 </TelerikCard>
-            </div>
         }
 </div>
 
@@ -285,9 +283,7 @@
     }
 
     .container {
-        padding: 1.2em;
-        width: 20em;
-        margin: auto;
+        padding: 0.5em;
     }
 
     .k-card-deck {
@@ -304,9 +300,7 @@
         //background: rgb(13,0,223);
         //background: linear-gradient(54deg, rgba(13,0,223,1) 0%, rgba(99,99,224,1) 50%, rgba(149,237,255,1) 100%); 
         word-wrap: normal;
-    }
-
-    .customeizeCard {
-        font-size:100px;
+        min-height: 5em;
+        overflow: auto;
     }
 </style>
