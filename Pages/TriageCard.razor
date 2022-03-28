@@ -3,40 +3,52 @@
 @using Telerik.DataSource
 @using Telerik.DataSource.Extensions
 
-<TelerikFilter ValueChanged="@OnValueChanged">
-    <FilterFields>
-        <FilterField Name="@(nameof(Link.name))" Type="@(typeof(string))" Label="Name"></FilterField>
-        <FilterField Name="@(nameof(Link.urlAddress))" Type="@(typeof(string))" Label="Url Address"></FilterField>
-        <FilterField Name="@(nameof(Link.description))" Type="@(typeof(string))" Label="Description"></FilterField>
-    </FilterFields>
-</TelerikFilter>
+<h2>Triage Resources</h2>
 
-<TelerikListView Data="@ListViewData" Width="100%" Pageable="false">
-    <HeaderTemplate>
-        <h2>Triage Resources</h2>
-    </HeaderTemplate>
-    <Template>
-        <div class="container k-card-group">
-        <TelerikCard Class="customizeCard">
-        <a href=@context.urlAddress target="_blank" rel="noopener noreferrer">
-            <CardHeader>
-                <CardTitle>
-                    @context.name
-                </CardTitle>
-            </CardHeader>
-            <CardBody Class="card-body">
-                <span>@context.description</span>
-            </CardBody>
-        </a>
-            <CardFooter>
-                @*<span style="float:right">@context.type</span>*@
-                <span class="chip">+ @context.source</span>
-                <span class="chip">+ @context.type</span>
-            </CardFooter>
-        </TelerikCard>
-        </div>
-    </Template>
-</TelerikListView>
+<div class="k-card-deck flex-center flex-wrap">
+    @foreach (var item in ListViewData)
+        {
+            <div class="container k-card-group">
+                <TelerikCard Class="customizeCard" Width="325px">
+                <a href=@item.urlAddress target="_blank" rel="noopener noreferrer">
+                    <CardHeader Class="card-header">
+                        <CardTitle>
+                            @item.name
+                        </CardTitle>
+                    </CardHeader>
+                    <CardBody Class="card-body">
+                        <span>@item.description</span>
+                    </CardBody>
+                </a>
+                    <CardFooter>
+                    @{
+                        string typeColor;
+                        switch(item.type)
+                        {
+                            case "Light":
+                                typeColor = "#bf3b70";
+                                break;
+                            case "Heavy":
+                                typeColor = "#814ea6";
+                                break;
+                            case "Heavy/Light":
+                                typeColor = "#509ede";
+                                break;
+                            case "All Value Streams":
+                                typeColor = "#c081eb";
+                                break;
+                            default:
+                                typeColor = "#d98327";
+                                break;
+                        }
+                        @((MarkupString)$"<span class=\"chip\" style=\"background: {typeColor}\">+ {item.type}</span>")
+                        @((MarkupString)$"<span class=\"chip\" style=\"background: #d98327\">+ {item.source}</span>")
+                    }
+                    </CardFooter>
+                </TelerikCard>
+            </div>
+        }
+</div>
 
 @code {
     private void OnValueChanged(CompositeFilterDescriptor filter)
@@ -65,15 +77,15 @@
                 "GPM Tool",
                 "http://tableau/#/views/GPM/GPM?:iid=2",
                 "Tableau",
-                "Capacity, Meter, andd Down Gross GPM Tool.",
-                "Heavy Light"
+                "Capacity, Meter, and Down Gross GPM Tool.",
+                "Heavy/Light"
             },
             new string[] {
                 "Lego vs. SAP",
                 "http://tableau/#/views/LEGOandSAPDownOil/WellListbyAreaOffCode?:iid=5",
                 "Tableau",
                 "Ensuring equipment that is own has orders in SAP.",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -81,14 +93,14 @@
                 "http://tableau/#/views/Bel_XSpocAlarms_0/Well_List?:iid=2",
                 "Tableau",
                 "Belridge XSPOC Alarms",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
                 "Constraints",
                 "http://tableau/#/views/Diatomite_Constraint_Oil_Gross/CONSTRAINTCURTAILMENT?:iid=5",
                 "Tableau",
-                "Visualize volumes associatedd with constraining wells for voidage",
+                "Visualize volumes associated with constraining wells for voidage",
                 "Light"
             },
             new string[]
@@ -97,7 +109,7 @@
                 "http://tableau/#/views/DeferredOilField/DeferredOil?:iid=7",
                 "Tableau",
                 "Deferred oil and uptime by month.",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -105,7 +117,7 @@
                 "http://tableau/#/views/AB1960Inspections/MissingFacilityInspections",
                 "Tableau",
                 "AB1960 Inspections - missing facility.",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -129,7 +141,7 @@
                 "http://tableau/#/views/DICCheckValveReport/CheckValves?:iid=5",
                 "Tableau",
                 "DIC Check Valve Report",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -137,7 +149,7 @@
                 "http://tableau/#/views/CAPReport/AllOpenCAPs?:iid=11",
                 "Tableau",
                 "CAP Report: All Open CAPs",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
@@ -145,7 +157,7 @@
                 "http://aeraweb02/belridge/BelridgeLineOfSight/BelridgeLineOfSight/BelridgeLineOfSightValueStreamDashboard.htm",
                 "Aeraweb",
                 "LOS Production Measures - Daily Production Control Outline.",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
@@ -153,7 +165,7 @@
                 "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_BL00_Compliance_Forecaster.pdf",
                 "BO Report",
                 "Compliance Forecaster",
-                "All value streams"
+                "All Value Streams"
             },
             new string[]
             {
@@ -161,7 +173,7 @@
                 "http://aeraweb/Scheduled_Reports/SAPBI/BL_BO_ANNUAL_WELL_INSPECTION_CLAM.pdf",
                 "BO Report",
                 "CLAM Annual Well Inspection.",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -185,7 +197,7 @@
                 "https://k2.aeraenergy.com/Runtime/Runtime/Form/NightRiderHomeForm",
                 "K2 Form",
                 "Night Rider Report",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -193,7 +205,7 @@
                 "https://k2.aeraenergy.com/Runtime/Form/Surface+PM+Notification/",
                 "K2 Form",
                 "Surface PM Notification Request",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -201,7 +213,7 @@
                 "https://k2.aeraenergy.com/Runtime/Form/Subsurface+PM+Notification/",
                 "K2 Form",
                 "Surface PM Notification Request",
-                "Heavy Light"
+                "Heavy/Light"
             },
             new string[]
             {
@@ -209,14 +221,14 @@
                 "https://aeraenergyllc-my.sharepoint.com/:x:/g/personal/sewhitestone_aeraenergy_com/ERHxe6PuivVNllZZYhnMA0EBX5NKyhtx3hARG199Nm6n7A?e=4%3AxHVCIy&at=9&CID=2AB114C9-8D51-4C45-8C5A-18C7500CD54F&wdLOR=c53E490F9-5CB8-4E3F-9CD6-AA44D63B1FAF",
                 "Sharepoint",
                 "Title V CLAM FE Leak Log",
-                "Heavy Light"
+                "Heavy/Light"
             },
             // BROKEN LINK
             //new string[]
             //{
             //    "TECO Report",
             //    "http://bksapbi01:8080/BOE/OpenDocument/123/PlatformServices/service/app/error.do",
-            //    "Heavy Light"
+            //    "Heavy/Light"
             //},
             new string[]
             {
@@ -224,7 +236,7 @@
                 "http://aeraweb02/SJVASP/FASRequest/",
                 "Aeraweb",
                 "FAS Request System",
-                "Heavy Light"
+                "Heavy/Light"
             },
         };
 
@@ -256,27 +268,20 @@
 }
 
 <style>
-    .listview-item {
-        height: 75px;
-        width: 150px;
-        display: inline-block;
-        margin: 10px;
-        border: 1px solid black;
-        border-radius: 10px;
-        padding: 10px;
-        vertical-align: middle;
-        text-align: center;
-    }
-
     .chip {
         border: 0.005em solid;
         border-radius: 0.5em;
         padding: 0.4em;
+        color: white;
     }
     
-    a:link, a:visited, a:active, a:hover {
+    a:link, a:visited, a:active {
         text-decoration: none;
         color: black;
+    }
+
+    a:hover {
+        background: #cfe0ff;
     }
 
     .container {
@@ -285,9 +290,20 @@
         margin: auto;
     }
 
+    .k-card-deck {
+        vertical-align: top;
+    }
+
+    .card-header {
+        background: rgb(92, 92, 92);
+        font-weight: bolder;
+        color: white;
+    }
+
     .card-body{
-        background: rgb(13,0,223);
-        background: linear-gradient(54deg, rgba(13,0,223,1) 0%, rgba(99,99,224,1) 50%, rgba(149,237,255,1) 100%); 
+        //background: rgb(13,0,223);
+        //background: linear-gradient(54deg, rgba(13,0,223,1) 0%, rgba(99,99,224,1) 50%, rgba(149,237,255,1) 100%); 
+        word-wrap: normal;
     }
 
     .customeizeCard {
