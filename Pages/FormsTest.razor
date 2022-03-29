@@ -1,0 +1,56 @@
+﻿@page "/forms-test"
+@* Provide a model to the Telerik Form *@
+
+@using System.ComponentModel.DataAnnotations
+
+<TelerikForm EditContext="@myEC" OnSubmit="@OnSubmit">
+    <FormValidation>
+        <DataAnnotationsValidator />
+    </FormValidation>
+</TelerikForm>
+
+<br />
+
+<TelerikCard>
+    <CardTitle>@person.FirstName</CardTitle>
+</TelerikCard>
+
+@code {
+    public Person person = new Person();
+
+    EditContext myEC { get; set; }
+
+    private void OnSubmit(EditContext editContext)
+    {
+        bool isFormValid = editContext.Validate();
+
+        Console.WriteLine(person.FirstName);
+    }
+
+    protected override void OnInitialized()
+    {
+        myEC = new EditContext(person);
+        base.OnInitialized();
+    }
+
+    public class Person
+    {
+        [Editable(true)]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(20, ErrorMessage = "The first name should be maximum 20 characters long")]
+        [Display(Name = "First Name")]
+        public string? FirstName { get; set; }
+
+        [Required]
+        [MaxLength(25, ErrorMessage = "The last name should be maximum 25 characters long")]
+        [Display(Name = "Last Name")]
+        public string? LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Date of Birth")]
+        public DateTime? DOB { get; set; }
+    }
+
+}
