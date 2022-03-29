@@ -1,0 +1,65 @@
+﻿@page "/crud/table"
+
+@using Telerik.DataSource
+@using Telerik.DataSource.Extensions
+
+<h3>Crud Table Layout</h3>
+
+<TelerikGrid Data=@GridData Groupable="true" Height="800px">
+    <GridColumns>
+        <GridColumn Field=@nameof(User.Userid) Groupable="false"></GridColumn>
+        <GridColumn Field=@nameof(User.Username) Groupable="false"></GridColumn>
+        <GridColumn Field=@nameof(User.Address)></GridColumn>
+        <GridColumn Field=@nameof(User.Cellnumber) Groupable="false"></GridColumn>
+        <GridColumn Field="Actions">
+            <Template>
+
+                @{
+                    var user = context as User;
+                    @((MarkupString)$"<a href='/crud/edit/\"{user.Userid}' class=\"btn btn-outline-dark\" role=\"button\"></a>")
+                    @((MarkupString)$"<a href='/crud/delete/\"{user.Userid}' class=\"btn btn-outline-danger\" role=\"button\"></a>")
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>
+</TelerikGrid>
+
+@code {
+    List<User> GridData { get; set; } = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUsers();
+    }
+
+    protected async Task GetUsers()
+    {
+        List<User> userList = new List<User>
+            {
+            new User
+            {
+                Userid = 1,
+                Username = "Sean Fontes",
+                Address = "123 Mulberry Lane",
+                Cellnumber = "867-5309",
+            },
+            new User
+            {
+                Userid = 2,
+                Username = "Angela Tante",
+                Address = "123 Penny Lane",
+                Cellnumber = "123-4567"
+            }
+        };
+
+        GridData = userList;
+    }
+
+    public class User
+    {
+        public int Userid { get; set; }
+        public string Username { get; set; } = null!;
+        public string Address { get; set; } = null!;
+        public string Cellnumber { get; set; } = null!;
+    }
+}

@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
+    <PackageReference Include="FluentValidation" Version="10.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />
-    <PackageReference Include="Radzen.Blazor" Version="3.17.1" />
+    <PackageReference Include="Radzen.Blazor" Version="3.17.2" />
     <PackageReference Include="Telerik.UI.for.Blazor.Trial" Version="3.1.0" />
   </ItemGroup>
 
